@@ -322,6 +322,28 @@ th { color: var(--brand-cta); font-size: .88rem; text-transform: uppercase; lett
 td { color: var(--muted); line-height: 1.4; }
 tr:last-child td { border-bottom: none; }
 .briefing-box { position: relative; padding: 18px; background: rgba(0,0,0,.28); }
+.briefing-assets {
+  display: grid;
+  grid-template-columns: 1.2fr .8fr;
+  gap: 14px;
+  align-items: stretch;
+}
+.asset-placeholder {
+  border: 1px dashed rgba(17,81,52,.28);
+  border-radius: 16px;
+  background: rgba(17,81,52,.05);
+  padding: 14px;
+  min-height: 120px;
+  display: grid;
+  align-content: center;
+  gap: 8px;
+}
+.asset-placeholder strong { color: var(--brand-dark); }
+.asset-placeholder span { color: rgba(17,81,52,.72); font-size: .84rem; line-height: 1.4; }
+.asset-grid {
+  display: grid;
+  gap: 10px;
+}
 pre, code, textarea { font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace; }
 pre {
   white-space: pre-wrap;
@@ -350,6 +372,13 @@ code {
   align-items: center;
 }
 .prompt-head strong { color: var(--brand-cta); }
+.prompt-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: flex-end;
+  margin-left: auto;
+}
 .mini-copy {
   border: 1px solid rgba(37,206,123,.55);
   background: rgba(37,206,123,.12);
@@ -361,6 +390,15 @@ code {
   transition: var(--transition);
 }
 .mini-copy:hover { background: var(--brand-cta); color: #00170b; }
+.prompt-expand {
+  border-color: rgba(255,158,27,.58);
+  background: rgba(255,158,27,.13);
+  color: #ffd9a2;
+}
+.prompt-expand:hover {
+  background: var(--builder);
+  color: #1d1000;
+}
 .prompt-box textarea {
   width: 100%;
   min-height: 220px;
@@ -373,6 +411,33 @@ code {
   resize: vertical;
   line-height: 1.48;
   font-size: .92rem;
+}
+.prompt-box.is-expanded {
+  position: fixed;
+  inset: 22px;
+  z-index: 120;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  padding: 22px;
+  background:
+    radial-gradient(circle at top left, rgba(37,206,123,.18), transparent 34%),
+    linear-gradient(180deg, rgba(8,28,17,.98), rgba(0,0,0,.98));
+  box-shadow: 0 30px 90px rgba(0,0,0,.72);
+  overflow: hidden;
+}
+.prompt-box.is-expanded textarea {
+  min-height: 0;
+  height: 100%;
+  max-height: none;
+  font-size: 1rem;
+  line-height: 1.55;
+  resize: none;
+}
+.prompt-box.is-expanded .prompt-head {
+  align-items: flex-start;
+}
+.prompt-box.is-expanded .prompt-head strong {
+  font-size: 1.12rem;
 }
 .check-grid {
   display: grid;
@@ -625,7 +690,7 @@ code {
 .dv-qa-item { border-radius: 16px; background: rgba(255,255,255,.86); border: 1px solid rgba(17,81,52,.12); padding: 14px; color: var(--brand-dark); }
 .dv-qa-item b { display: block; color: var(--brand-cta); font-size: 1.4rem; margin-bottom: 8px; }
 @media (max-width: 980px) {
-  .visual-two, .dv-mini-hero, .dv-compare, .dv-hubspot-ui, .dv-editor, .dv-design-manager, .dv-form-module, .dv-vscode, .dv-field-map, .dv-qa-visual { grid-template-columns: 1fr; }
+  .visual-two, .briefing-assets, .dv-mini-hero, .dv-compare, .dv-hubspot-ui, .dv-editor, .dv-design-manager, .dv-form-module, .dv-vscode, .dv-field-map, .dv-qa-visual { grid-template-columns: 1fr; }
   .dv-product-row, .dv-modules-grid { grid-template-columns: 1fr; }
   .dv-briefing-map { grid-template-columns: 1fr; }
   .dv-arrow { transform: rotate(90deg); text-align: center; }
@@ -925,6 +990,137 @@ SEO title: Pacote Eberick, Builder e Visus | Solução integrada
 Meta description: Conheça o pacote integrado Eberick, Builder e Visus para conectar estrutura, orçamento e visualização em um fluxo mais eficiente.</pre>
 </div>
 <div class="activity"><strong>Atividade:</strong> usar este briefing como fonte única; os textos detalhados entram na montagem da LP nativa e nos prompts.</div>
+
+</section>
+<section class="slide" id="slide-6b" data-title="Briefing exemplo completo" data-notes="Use este slide como briefing final da atividade. Ele tem texto, estrutura, imagens e placeholders para copiar para IA ou HubSpot.">
+
+<div class="slide-kicker">Briefing da atividade</div>
+<h1>Briefing exemplo completo</h1>
+<p class="lead">Use este briefing como referência completa para montar a LP no HubSpot e para gerar os prompts das atividades.</p>
+<div class="hubspot-cue"><b>Abrir HubSpot</b><span>Antes de montar a LP, deixar abertas as telas <code>Content > Landing Pages</code> e <code>Content > Files</code> para criar a página e copiar URLs de imagens/logos.</span></div>
+
+<div class="demo-visual" role="img" aria-label="Mapa de imagens e logos para a landing page da atividade">
+  <div class="briefing-assets">
+    <div class="asset-placeholder">
+      <strong>(inserir imagem hero)</strong>
+      <span>Imagem principal da LP: equipe técnica, projeto estrutural, visualização 3D ou composição institucional do pacote Eberick + Builder + Visus.</span>
+    </div>
+    <div class="asset-grid">
+      <div class="asset-placeholder"><strong>(inserir logo institucional)</strong><span>Logo principal via URL do HubSpot.</span></div>
+      <div class="asset-placeholder"><strong>(inserir logos Eberick, Builder e Visus)</strong><span>Logos dos produtos ou placeholders durante a aula.</span></div>
+    </div>
+  </div>
+  <span class="dv-caption">Campos visuais que devem ser preparados antes da montagem da LP.</span>
+</div>
+
+<div class="prompt-box">
+  <div class="prompt-head">
+    <strong>Briefing completo copiável da atividade</strong>
+    <button class="mini-copy" onclick="copyFromBox(this)">Copiar briefing</button>
+  </div>
+  <textarea readonly>Nome da campanha:
+Novo pacote integrado Eberick + Builder + Visus.
+
+Objetivo principal da LP:
+Gerar leads qualificados interessados em conhecer como Eberick, Builder e Visus podem funcionar juntos em um fluxo integrado de projeto, orçamento e visualização.
+
+Oferta:
+Contato consultivo com o time para entender o cenário da empresa/profissional e apresentar a melhor forma de usar o pacote integrado.
+
+Produtos envolvidos:
+- Eberick: projeto estrutural, cálculo, compatibilização e decisões técnicas.
+- Builder: orçamento, planejamento, controle e organização das informações do projeto.
+- Visus: visualização, apresentação e comunicação clara para cliente, equipe e decisores.
+
+Público/persona:
+Profissionais e empresas de engenharia, arquitetura, orçamento, planejamento e coordenação de projetos que precisam reduzir retrabalho e melhorar a comunicação entre áreas.
+
+Dor principal:
+Informações espalhadas entre projeto estrutural, orçamento e apresentação visual, gerando retrabalho, ruído entre equipes, demora na tomada de decisão e dificuldade para mostrar valor ao cliente.
+
+Promessa da página:
+Conectar estrutura, orçamento e visualização em um fluxo mais claro, rápido e integrado, ajudando equipes técnicas a transformar dados do projeto em decisões melhores.
+
+CTA principal:
+Quero conhecer o pacote.
+
+Formulário HubSpot:
+Teste-form-lp+IA.
+
+Imagem e logos:
+- (inserir imagem hero): usar uma imagem relacionada a projeto estrutural, obra, equipe técnica, visualização 3D ou solução integrada.
+- (inserir logo institucional via URL do HubSpot).
+- (inserir logo Eberick via URL do HubSpot).
+- (inserir logo Builder via URL do HubSpot).
+- (inserir logo Visus via URL do HubSpot).
+- Se não houver imagem final durante a aula, usar placeholder visual com o texto "(inserir imagem)".
+
+Identidade visual:
+Visual B2B tecnológico, limpo, com bom contraste e foco em conversão.
+Fonte: Poppins.
+Paleta: #115134, #000000, #FFFFFF, #25CE7B, #64656A, #95E2C0.
+Acentos por produto: Eberick #00D7FF, Builder #FF9E1B, Visus #A15FE3.
+
+Estrutura obrigatória da LP:
+
+1. Hero
+Objetivo: apresentar a promessa, mostrar a imagem principal e levar para o formulário.
+Headline: Conecte Eberick, Builder e Visus em um fluxo integrado de projeto.
+Subheadline: Um pacote para aproximar estrutura, orçamento e visualização, reduzindo retrabalho e acelerando decisões.
+CTA: Quero conhecer o pacote.
+Imagem: (inserir imagem hero).
+Logo: (inserir logo institucional).
+Texto de apoio: Ideal para equipes que precisam transformar informação técnica em decisão clara.
+
+2. Benefícios por produto
+Objetivo: explicar o papel de cada solução dentro do pacote.
+Texto de abertura: Cada produto atua em uma etapa essencial do processo, criando uma experiência mais conectada do projeto à apresentação.
+Card Eberick: Estruture projetos com mais precisão, compatibilização e segurança nas decisões técnicas.
+Card Builder: Transforme informações do projeto em orçamento, planejamento e controle mais organizados.
+Card Visus: Apresente o projeto com visualização clara para facilitar entendimento, alinhamento e aprovação.
+Imagens/logos: (inserir logo Eberick), (inserir logo Builder), (inserir logo Visus).
+
+3. Como funciona o pacote
+Objetivo: mostrar o fluxo integrado em etapas simples.
+Headline: Do cálculo à apresentação, tudo conversa melhor.
+Passo 1: Desenvolva o projeto estrutural no Eberick.
+Passo 2: Organize orçamento, planejamento e dados de execução no Builder.
+Passo 3: Use o Visus para visualizar, comunicar e vender melhor a solução.
+Texto de fechamento: O pacote ajuda a reduzir ruídos entre áreas e torna o fluxo mais compreensível para equipe, cliente e decisores.
+Imagem de apoio: (inserir imagem ou diagrama do fluxo integrado).
+
+4. Conversão/Formulário
+Objetivo: transformar interesse em lead.
+Headline: Veja como o pacote pode funcionar no seu cenário.
+Texto: Preencha o formulário e fale com o time para entender a melhor forma de usar Eberick, Builder e Visus juntos.
+Formulário: Teste-form-lp+IA.
+Reforço de confiança: Atendimento consultivo, foco em produtividade e solução pensada para profissionais da construção.
+CTA auxiliar: Receber contato consultivo.
+
+Provas de confiança:
+Usar logos de clientes, números, depoimentos ou cases se estiverem disponíveis. Na aula, usar placeholders:
+- (inserir logo cliente 1)
+- (inserir logo cliente 2)
+- (inserir depoimento ou prova social)
+
+URL desejada:
+/lp/pacote-eberick-builder-visus
+
+SEO title:
+Pacote Eberick, Builder e Visus | Solução integrada
+
+Meta description:
+Conheça o pacote integrado Eberick, Builder e Visus para conectar estrutura, orçamento e visualização em um fluxo mais eficiente.
+
+Critérios de aceite:
+- LP com 4 seções montadas.
+- CTA levando para o formulário.
+- Formulário Teste-form-lp+IA selecionado.
+- Imagens/logos inseridos ou marcados com "(inserir imagem)".
+- URL e SEO preenchidos.
+- Preview mobile revisado.
+- Publicação ou atualização validada.</textarea>
+</div>
 
 </section>
 <section class="slide" id="slide-7" data-title="Prompt base: estética, fonte, cores e logos" data-notes="Explique que os placeholders de logo existem para você demonstrar a captura de URL no HubSpot.">
@@ -1709,7 +1905,7 @@ Entregue código pronto para colar no Design Manager do HubSpot, com HTML + HubL
     <button class="control-btn" id="nextBtn" onclick="changeSlide(1)">Próximo</button>
     <button class="control-btn" onclick="toggleNotes()">Notas</button>
   </div>
-  <div class="counter" id="counter">1 / 25</div>
+  <div class="counter" id="counter">1 / 26</div>
 </div>
 <aside class="notes-panel" id="notesPanel">
   <h3>Notas do apresentador</h3>
@@ -1726,8 +1922,47 @@ const counter = document.getElementById('counter');
 const notesPanel = document.getElementById('notesPanel');
 const notesText = document.getElementById('notesText');
 const sidebar = document.getElementById('sidebar');
+const promptBoxes = Array.from(document.querySelectorAll('.prompt-box'));
 
 function pad(n) { return String(n).padStart(2, '0'); }
+
+function initPromptTools() {
+  promptBoxes.forEach((box) => {
+    const head = box.querySelector('.prompt-head');
+    if (!head || head.querySelector('.prompt-expand')) return;
+    let actions = head.querySelector('.prompt-actions');
+    if (!actions) {
+      actions = document.createElement('div');
+      actions.className = 'prompt-actions';
+      Array.from(head.querySelectorAll('button')).forEach((button) => actions.appendChild(button));
+      head.appendChild(actions);
+    }
+    const expandButton = document.createElement('button');
+    expandButton.className = 'mini-copy prompt-expand';
+    expandButton.type = 'button';
+    expandButton.textContent = 'Aumentar';
+    expandButton.onclick = () => togglePromptSize(expandButton);
+    actions.appendChild(expandButton);
+  });
+}
+
+function closeExpandedPrompt() {
+  const expanded = document.querySelector('.prompt-box.is-expanded');
+  if (!expanded) return false;
+  expanded.classList.remove('is-expanded');
+  const button = expanded.querySelector('.prompt-expand');
+  if (button) button.textContent = 'Aumentar';
+  return true;
+}
+
+function togglePromptSize(button) {
+  const box = button.closest('.prompt-box');
+  const shouldExpand = !box.classList.contains('is-expanded');
+  closeExpandedPrompt();
+  box.classList.toggle('is-expanded', shouldExpand);
+  button.textContent = shouldExpand ? 'Reduzir' : 'Aumentar';
+  if (shouldExpand) box.querySelector('textarea')?.focus();
+}
 
 slides.forEach((slide, index) => {
   const btn = document.createElement('button');
@@ -1787,15 +2022,18 @@ async function copyFromBox(button) {
 }
 
 document.addEventListener('keydown', (e) => {
-  if (e.key === 'ArrowRight') changeSlide(1);
-  if (e.key === 'ArrowLeft') changeSlide(-1);
-  if (e.key.toLowerCase() === 'n') toggleNotes();
+  const isTextField = ['TEXTAREA', 'INPUT', 'SELECT'].includes(e.target.tagName);
+  if (!isTextField && e.key === 'ArrowRight') changeSlide(1);
+  if (!isTextField && e.key === 'ArrowLeft') changeSlide(-1);
+  if (!isTextField && e.key.toLowerCase() === 'n') toggleNotes();
   if (e.key === 'Escape') {
+    if (closeExpandedPrompt()) return;
     notesPanel.classList.remove('show');
     sidebar.classList.remove('open');
   }
 });
 
+initPromptTools();
 updatePresentation();
 </script>
 </body>
