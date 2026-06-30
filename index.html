@@ -923,7 +923,7 @@ code {
     <div class="prompt-box">
       <div class="prompt-head">
         <strong>Template copiável de briefing</strong>
-        <button class="mini-copy" onclick="copyFromBox(this)">Copiar prompt</button>
+        <button class="mini-copy" onclick="copyFromBox(this)">Copiar briefing</button>
       </div>
       <textarea readonly>Nome da campanha:
 Objetivo principal da LP:
@@ -1204,6 +1204,91 @@ Entregue:
 
 <div class="callout"><strong>Para demonstrar ao vivo:</strong> os logos continuam como placeholders para você pegar a URL no HubSpot durante a aula e substituir na hora.</div>
 </section>
+<section class="slide" id="slide-7b" data-title="Prompt IA: gerar HTML da LP" data-notes="Use depois do prompt base de estética. Este prompt transforma briefing e direção visual em HTML estático completo.">
+
+<div class="slide-kicker">Prompt de IA</div>
+<h1>Prompt IA: gerar HTML da LP</h1>
+<p class="lead">Use este prompt depois que a IA já definiu a estética. Aqui o objetivo é transformar briefing + direção visual em um HTML completo da LP, não estruturar a página nativa.</p>
+
+    <div class="prompt-box">
+      <div class="prompt-head">
+        <strong>Prompt para gerar o HTML da LP</strong>
+        <button class="mini-copy" onclick="copyFromBox(this)">Copiar prompt</button>
+      </div>
+      <textarea readonly>Você é um desenvolvedor front-end sênior especializado em landing pages B2B para HubSpot.
+
+Use a direção estética já definida na resposta anterior como fonte de verdade.
+Não redefina a estética do zero: aplique a fonte, paleta, tokens, hierarquia, estilo de cards, botões, espaçamentos, tratamento de imagem e tratamento de logos já definidos.
+
+Agora crie o HTML completo da landing page da campanha abaixo.
+
+Briefing oficial:
+- Campanha: Novo pacote integrado Eberick + Builder + Visus.
+- Objetivo: gerar leads qualificados interessados em conhecer o pacote integrado.
+- Oferta: contato consultivo com o time para entender o cenário da empresa/profissional e apresentar a melhor forma de usar o pacote.
+- Produtos: Eberick, Builder e Visus.
+- Público/persona: profissionais e empresas de engenharia, arquitetura, orçamento, planejamento e coordenação de projetos.
+- Dor principal: informações espalhadas entre projeto estrutural, orçamento e apresentação visual, gerando retrabalho, ruído entre equipes, demora na tomada de decisão e dificuldade para mostrar valor ao cliente.
+- Promessa: conectar estrutura, orçamento e visualização em um fluxo mais claro, rápido e integrado.
+- CTA principal: Quero conhecer o pacote.
+- Formulário HubSpot: Teste-form-lp+IA.
+- URL desejada: /lp/pacote-eberick-builder-visus.
+- SEO title: Pacote Eberick, Builder e Visus | Solução integrada.
+- Meta description: Conheça o pacote integrado Eberick, Builder e Visus para conectar estrutura, orçamento e visualização em um fluxo mais eficiente.
+
+Estrutura obrigatória da LP:
+1. Hero
+- Headline: Conecte Eberick, Builder e Visus em um fluxo integrado de projeto.
+- Subheadline: Um pacote para aproximar estrutura, orçamento e visualização, reduzindo retrabalho e acelerando decisões.
+- CTA: Quero conhecer o pacote.
+- Incluir logo institucional como placeholder: [INSERIR LOGO INSTITUCIONAL VIA URL DO HUBSPOT].
+- Incluir imagem hero como placeholder: (inserir imagem hero).
+- CTA deve apontar para a seção do formulário usando âncora #formulario.
+
+2. Benefícios por produto
+- Texto de abertura: Cada produto atua em uma etapa essencial do processo, criando uma experiência mais conectada do projeto à apresentação.
+- Card Eberick: Estruture projetos com mais precisão, compatibilização e segurança nas decisões técnicas.
+- Card Builder: Transforme informações do projeto em orçamento, planejamento e controle mais organizados.
+- Card Visus: Apresente o projeto com visualização clara para facilitar entendimento, alinhamento e aprovação.
+- Usar placeholders de logos:
+  [INSERIR LOGO EBERICK VIA URL DO HUBSPOT]
+  [INSERIR LOGO BUILDER VIA URL DO HUBSPOT]
+  [INSERIR LOGO VISUS VIA URL DO HUBSPOT]
+
+3. Como funciona o pacote
+- Headline: Do cálculo à apresentação, tudo conversa melhor.
+- Passo 1: Desenvolva o projeto estrutural no Eberick.
+- Passo 2: Organize orçamento, planejamento e dados de execução no Builder.
+- Passo 3: Use o Visus para visualizar, comunicar e vender melhor a solução.
+- Texto de fechamento: O pacote ajuda a reduzir ruídos entre áreas e torna o fluxo mais compreensível para equipe, cliente e decisores.
+
+4. Conversão/Formulário
+- ID da seção: formulario.
+- Headline: Veja como o pacote pode funcionar no seu cenário.
+- Texto: Preencha o formulário e fale com o time para entender a melhor forma de usar Eberick, Builder e Visus juntos.
+- Reforço de confiança: Atendimento consultivo, foco em produtividade e solução pensada para profissionais da construção.
+- Como este é um HTML estático, não crie um formulário manual funcional. Crie um bloco visual de placeholder com o texto: "Formulário HubSpot: Teste-form-lp+IA será inserido aqui".
+- CTA auxiliar: Receber contato consultivo.
+
+Requisitos técnicos:
+- Entregar um único arquivo HTML completo, com &lt;!doctype html&gt;, &lt;html lang="pt-BR"&gt;, &lt;head&gt;, &lt;style&gt; e &lt;body&gt;.
+- Incluir Poppins no &lt;head&gt; se a direção estética pedir essa fonte.
+- Incluir title e meta description no &lt;head&gt;.
+- Escrever CSS responsivo dentro de &lt;style&gt;, sem framework externo.
+- Usar variáveis CSS para cores, fonte, raios, sombras e espaçamentos.
+- Não inventar URLs de imagens ou logos; usar somente placeholders.
+- Garantir boa leitura no mobile, contraste adequado e CTAs visíveis.
+- Usar HTML semântico: header, main, section, h1/h2/h3, nav se fizer sentido.
+- O HTML deve funcionar aberto no navegador ou no Live Server.
+- Se usar JavaScript, limitar a melhorias simples, como scroll suave; não depender de bibliotecas externas.
+
+Entregue:
+1. Primeiro, o HTML completo em um único bloco de código.
+2. Depois, uma checklist curta com os placeholders que precisam ser substituídos no HubSpot.</textarea>
+    </div>
+
+<div class="callout"><strong>Uso correto:</strong> cole este prompt na mesma conversa em que a IA já definiu a estética, para ela aplicar aquela direção visual no HTML final.</div>
+</section>
 <section class="slide" id="slide-8" data-title="Apps e sistemas que vamos usar" data-notes="Apresente as ferramentas sem entrar em instalação longa.">
 
 <div class="slide-kicker">Ferramentas</div>
@@ -1389,64 +1474,69 @@ Entregue:
 
     <div class="prompt-box">
       <div class="prompt-head">
-        <strong>Prompt opcional para estruturar a LP nativa</strong>
-        <button class="mini-copy" onclick="copyFromBox(this)">Copiar prompt</button>
+        <strong>Roteiro nativo: seções para arrastar no HubSpot</strong>
+        <button class="mini-copy" onclick="copyFromBox(this)">Copiar roteiro</button>
       </div>
-      <textarea readonly>Você é especialista em landing pages B2B e HubSpot.
+      <textarea readonly>Use este roteiro dentro do editor nativo do HubSpot.
+Nesta etapa, a ideia não é pedir código para IA: é arrastar seções e módulos nativos, preencher com o briefing oficial e validar o fluxo da página.
 
-Crie a estrutura de uma LP de 4 seções para uma campanha de novo pacote integrado Eberick + Builder + Visus.
+Configuração inicial:
+- Criar a LP no HubSpot.
+- URL: /lp/pacote-eberick-builder-visus.
+- SEO title: Pacote Eberick, Builder e Visus | Solução integrada.
+- Meta description: Conheça o pacote integrado Eberick, Builder e Visus para conectar estrutura, orçamento e visualização em um fluxo mais eficiente.
+- Formulário da página: Teste-form-lp+IA.
+- Preparar placeholders ou URLs de logos/imagens em Content > Files.
 
-Briefing:
-- Nome da campanha: Novo pacote integrado Eberick + Builder + Visus.
-- Objetivo principal da LP: gerar leads interessados em conhecer o pacote integrado.
-- Oferta: contato consultivo para entender como o pacote pode melhorar o fluxo de trabalho.
-- Produtos: Eberick, Builder e Visus.
-- Público/persona: profissionais e empresas de engenharia, arquitetura, orçamento e coordenação de projetos.
-- Dor principal: retrabalho entre projeto estrutural, orçamento e apresentação visual.
-- Promessa da página: conectar estrutura, orçamento e visualização em um fluxo mais claro, rápido e integrado.
-- CTA principal: Quero conhecer o pacote.
-- Formulário HubSpot: Teste-form-lp+IA.
+Seção 1: Hero
+- Arrastar uma seção hero ou uma seção de 2 colunas.
+- Módulos sugeridos: imagem/logo, heading, rich text e botão.
+- Headline: Conecte Eberick, Builder e Visus em um fluxo integrado de projeto.
+- Subheadline: Um pacote para aproximar estrutura, orçamento e visualização, reduzindo retrabalho e acelerando decisões.
+- CTA: Quero conhecer o pacote.
+- Link do CTA: âncora para a seção do formulário.
+- Imagem: (inserir imagem hero).
+- Logo: (inserir logo institucional).
 
-Padrão visual:
-- Usar o prompt base de estética do workshop: Poppins, paleta #115134 / #25CE7B / #95E2C0 e acentos Eberick, Builder e Visus.
-- Logos entram como placeholders [INSERIR LOGO ... VIA URL DO HUBSPOT].
-- Manter visual B2B tecnológico, limpo e com CTA evidente.
+Seção 2: Benefícios por produto
+- Arrastar uma seção com 3 colunas ou cards.
+- Módulos sugeridos: heading, rich text, cards/colunas e imagens/logos.
+- Texto de abertura: Cada produto atua em uma etapa essencial do processo, criando uma experiência mais conectada do projeto à apresentação.
+- Card Eberick: Estruture projetos com mais precisão, compatibilização e segurança nas decisões técnicas.
+- Card Builder: Transforme informações do projeto em orçamento, planejamento e controle mais organizados.
+- Card Visus: Apresente o projeto com visualização clara para facilitar entendimento, alinhamento e aprovação.
+- Logos: inserir ou deixar placeholders para Eberick, Builder e Visus.
 
-Estrutura obrigatória:
-1. Hero com promessa clara, subheadline e CTA para o formulário.
-2. Benefícios por produto com 3 cards: Eberick, Builder e Visus.
-3. Seção "Como o pacote funciona" mostrando o fluxo integrado de projeto, orçamento e visualização.
-4. Seção final de conversão com formulário HubSpot Teste-form-lp+IA e reforço de confiança.
+Seção 3: Como funciona o pacote
+- Arrastar uma seção de etapas, timeline simples ou 3 colunas.
+- Módulos sugeridos: heading, rich text, ícones/etapas e imagem de apoio.
+- Headline: Do cálculo à apresentação, tudo conversa melhor.
+- Passo 1: Desenvolva o projeto estrutural no Eberick.
+- Passo 2: Organize orçamento, planejamento e dados de execução no Builder.
+- Passo 3: Use o Visus para visualizar, comunicar e vender melhor a solução.
+- Fechamento: O pacote ajuda a reduzir ruídos entre áreas e torna o fluxo mais compreensível para equipe, cliente e decisores.
 
-Textos de exemplo para usar:
-1. Hero:
-Headline: Conecte Eberick, Builder e Visus em um fluxo integrado de projeto.
-Subheadline: Um pacote para aproximar estrutura, orçamento e visualização, reduzindo retrabalho e acelerando decisões.
-CTA: Quero conhecer o pacote.
+Seção 4: Conversão/Formulário
+- Arrastar uma seção de formulário ou uma seção de 2 colunas.
+- Módulos sugeridos: heading, rich text, lista curta de benefícios e Form.
+- Headline: Veja como o pacote pode funcionar no seu cenário.
+- Texto: Preencha o formulário e fale com o time para entender a melhor forma de usar Eberick, Builder e Visus juntos.
+- Formulário: selecionar Teste-form-lp+IA no módulo Form do HubSpot.
+- Reforço: Atendimento consultivo, foco em produtividade e solução pensada para profissionais da construção.
 
-2. Benefícios:
-Eberick: Estruture projetos com mais precisão, compatibilização e segurança nas decisões técnicas.
-Builder: Transforme informações do projeto em orçamento, planejamento e controle mais organizados.
-Visus: Apresente o projeto com visualização clara para facilitar entendimento, alinhamento e aprovação.
+Não fazer nesta etapa:
+- Não pedir para a IA gerar HTML.
+- Não abrir o Design Manager.
+- Não criar módulo customizado.
+- Não criar formulário manual em HTML.
+- Não fixar form_id em código.
 
-3. Como funciona:
-Passo 1: Desenvolva o projeto estrutural no Eberick.
-Passo 2: Organize orçamento, planejamento e dados de execução no Builder.
-Passo 3: Use o Visus para visualizar, comunicar e vender melhor a solução.
-
-4. Conversão/Formulário:
-Headline: Veja como o pacote pode funcionar no seu cenário.
-Texto: Preencha o formulário e fale com o time para entender a melhor forma de usar Eberick, Builder e Visus juntos.
-Reforço: Atendimento consultivo, foco em produtividade e solução pensada para profissionais da construção.
-
-Para cada seção, entregue:
-- objetivo da seção;
-- headline;
-- subheadline;
-- módulos nativos do HubSpot sugeridos;
-- texto base;
-- CTA quando aplicável;
-- observação de design.</textarea>
+Entrega esperada:
+- LP nativa com 4 seções montadas.
+- CTA levando ao formulário.
+- Formulário Teste-form-lp+IA selecionado.
+- Logos/imagens inseridos ou marcados com placeholders.
+- URL, SEO e preview mobile revisados.</textarea>
     </div>
     
 
@@ -1457,8 +1547,8 @@ Para cada seção, entregue:
 <h1>Introdução à IA para LP no HubSpot</h1>
 <div class="timeline">
   <div><b>1</b><span>Briefing claro: objetivo, oferta, público, seções e formulário.</span></div>
-  <div><b>2</b><span>IA para estruturar copy, hierarquia, variações e prompts.</span></div>
-  <div><b>3</b><span>IA para gerar HTML, CSS, JS e campos editáveis.</span></div>
+  <div><b>2</b><span>IA para definir estética, fonte, paleta, hierarquia e tokens visuais.</span></div>
+  <div><b>3</b><span>IA para transformar briefing + estética em HTML, CSS e JS de preview.</span></div>
   <div><b>4</b><span>Humano valida no HubSpot: edição, preview, QA e publicação.</span></div>
 </div>
 <div class="callout"><strong>Regra da aula:</strong> todo prompt precisa informar que o destino é HubSpot, porque isso muda HTML, HubL, campos e forma de renderizar formulário.</div>
