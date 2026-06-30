@@ -1,0 +1,1375 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Workshop: Landing Page HubSpot + IA</title>
+<style>
+:root {
+  --brand-dark: #115134;
+  --brand-black: #000000;
+  --brand-white: #FFFFFF;
+  --brand-cta: #25CE7B;
+  --brand-gray: #64656A;
+  --brand-mint: #95E2C0;
+  --eberick: #00D7FF;
+  --builder: #FF9E1B;
+  --visus: #A15FE3;
+  --bg: #07140d;
+  --surface: rgba(255,255,255,.09);
+  --surface-2: rgba(255,255,255,.065);
+  --text: #FFFFFF;
+  --muted: #D6E7DD;
+  --muted-2: #95E2C0;
+  --border: rgba(255,255,255,.16);
+  --shadow: 0 26px 70px rgba(0,0,0,.48);
+  --radius: 24px;
+  --transition: all .28s cubic-bezier(.4,0,.2,1);
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; }
+body {
+  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  background:
+    radial-gradient(circle at top left, rgba(37,206,123,.24), transparent 36%),
+    radial-gradient(circle at bottom right, rgba(149,226,192,.18), transparent 34%),
+    linear-gradient(135deg, var(--brand-black), var(--brand-dark) 76%);
+  color: var(--text);
+  overflow: hidden;
+}
+a { color: var(--brand-cta); text-decoration: none; }
+a:hover { text-decoration: underline; }
+.progress-shell {
+  position: fixed;
+  inset: 0 0 auto 0;
+  height: 7px;
+  background: rgba(255,255,255,.08);
+  z-index: 50;
+}
+.progress-bar {
+  height: 100%; width: 0%;
+  background: linear-gradient(90deg, var(--brand-cta), var(--eberick), var(--builder), var(--visus));
+  transition: width .35s ease;
+}
+.deck {
+  height: 100vh;
+  display: grid;
+  grid-template-columns: 310px 1fr;
+}
+.sidebar {
+  border-right: 1px solid var(--border);
+  background: rgba(0,0,0,.48);
+  backdrop-filter: blur(18px);
+  padding: 28px 18px 96px;
+  overflow: auto;
+  transition: var(--transition);
+}
+.sidebar h2 {
+  margin: 0 0 6px;
+  font-size: 1rem;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--brand-cta);
+}
+.sidebar p {
+  margin: 0 0 18px;
+  font-size: .85rem;
+  color: var(--muted);
+  line-height: 1.45;
+}
+.nav-item {
+  width: 100%;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--muted);
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  text-align: left;
+  padding: 10px;
+  border-radius: 14px;
+  cursor: pointer;
+  font-size: .84rem;
+  line-height: 1.25;
+  transition: var(--transition);
+}
+.nav-item span {
+  min-width: 34px;
+  font-variant-numeric: tabular-nums;
+  color: var(--brand-mint);
+}
+.nav-item:hover, .nav-item.is-active {
+  color: var(--text);
+  border-color: rgba(37,206,123,.35);
+  background: rgba(37,206,123,.09);
+}
+.nav-item.is-active span { color: var(--brand-cta); }
+.stage {
+  position: relative;
+  display: grid;
+  grid-template-rows: 1fr auto;
+  min-width: 0;
+}
+.slides {
+  position: relative;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 46px 46px 116px;
+}
+.slide {
+  position: absolute;
+  width: min(1140px, calc(100% - 76px));
+  max-height: calc(100vh - 172px);
+  overflow: auto;
+  padding: 44px;
+  border-radius: var(--radius);
+  background:
+    linear-gradient(180deg, rgba(17,81,52,.94), rgba(2,17,10,.94));
+  box-shadow: var(--shadow);
+  border: 1px solid rgba(255,255,255,.16);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(24px) scale(.985);
+  transition: var(--transition);
+}
+.slide.active {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0) scale(1);
+}
+.slide::-webkit-scrollbar, .sidebar::-webkit-scrollbar { width: 9px; }
+.slide::-webkit-scrollbar-thumb, .sidebar::-webkit-scrollbar-thumb { background: rgba(37,206,123,.46); border-radius: 999px; }
+.slide-kicker {
+  color: var(--brand-cta);
+  text-transform: uppercase;
+  letter-spacing: .18em;
+  font-size: .78rem;
+  font-weight: 900;
+  margin-bottom: 12px;
+}
+h1 {
+  margin: 0 0 22px;
+  font-size: clamp(2rem, 4.6vw, 4rem);
+  line-height: .96;
+  letter-spacing: -.05em;
+}
+h3 { margin: 0 0 10px; font-size: 1.06rem; }
+p { color: var(--muted); line-height: 1.62; font-size: 1.02rem; }
+.lead {
+  color: #f5fff9;
+  font-size: clamp(1.05rem, 1.5vw, 1.32rem);
+  line-height: 1.55;
+  margin-top: 0;
+}
+.hero-layout { display: grid; grid-template-columns: 1.45fr .9fr; gap: 28px; align-items: stretch; }
+.tag-row { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 28px; }
+.tag-row span, .path span {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid rgba(37,206,123,.35);
+  color: #f5fff9;
+  background: rgba(37,206,123,.12);
+  border-radius: 999px;
+  padding: 8px 12px;
+  font-size: .88rem;
+}
+.grid { display: grid; gap: 16px; }
+.grid.two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.grid.three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.card, .big-card, .tool-card, .callout, .example, .activity, .briefing-box, .prompt-box {
+  border: 1px solid var(--border);
+  background: var(--surface-2);
+  border-radius: 20px;
+}
+.card { padding: 20px; }
+.card p, .tool-card p { margin: 0; }
+.card ul { margin: 10px 0 0 18px; padding: 0; color: var(--muted); line-height: 1.55; }
+.big-card { padding: 24px; }
+.big-card strong { display: block; font-size: 1.35rem; margin-bottom: 12px; }
+.big-card small { color: var(--muted); line-height: 1.6; font-size: 1rem; }
+.accent-card {
+  background: linear-gradient(135deg, rgba(37,206,123,.16), rgba(149,226,192,.14));
+  border-color: rgba(37,206,123,.36);
+}
+.activity {
+  margin-top: 18px;
+  padding: 16px 18px;
+  background: linear-gradient(135deg, rgba(255,158,27,.16), rgba(37,206,123,.1));
+  border-color: rgba(255,158,27,.34);
+  color: #fff7ed;
+  line-height: 1.5;
+}
+.activity strong { color: var(--builder); }
+.callout {
+  margin-top: 18px;
+  padding: 16px 18px;
+  background: rgba(149,226,192,.12);
+  border-color: rgba(149,226,192,.34);
+  color: #f0fff7;
+  line-height: 1.5;
+}
+.callout strong { color: var(--brand-cta); }
+.tool-card {
+  padding: 18px;
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+}
+.tool-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 14px;
+  display: inline-grid;
+  place-items: center;
+  color: #00170b;
+  font-weight: 900;
+  background: linear-gradient(135deg, var(--brand-cta), var(--brand-mint));
+  flex: 0 0 auto;
+}
+.timeline {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+}
+.timeline div, .result-grid div {
+  min-height: 112px;
+  border: 1px solid var(--border);
+  background: var(--surface-2);
+  border-radius: 18px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.timeline b, .result-grid strong {
+  color: var(--brand-cta);
+  font-size: 1.7rem;
+  line-height: 1;
+}
+.timeline span, .result-grid span { color: var(--muted); line-height: 1.35; }
+.funnel { display: grid; gap: 10px; }
+.funnel div {
+  border: 1px solid rgba(37,206,123,.24);
+  background: rgba(37,206,123,.08);
+  padding: 14px 16px;
+  border-radius: 16px;
+  display: grid;
+  grid-template-columns: 190px 1fr;
+  gap: 16px;
+  align-items: center;
+}
+.funnel strong { color: #f5fff9; }
+.funnel span { color: var(--muted); }
+.table-wrap { overflow-x: auto; border-radius: 18px; border: 1px solid var(--border); }
+table { width: 100%; border-collapse: collapse; min-width: 760px; background: rgba(255,255,255,.04); }
+th, td { padding: 12px 14px; text-align: left; border-bottom: 1px solid var(--border); vertical-align: top; }
+th { color: var(--brand-cta); font-size: .88rem; text-transform: uppercase; letter-spacing: .08em; }
+td { color: var(--muted); line-height: 1.4; }
+tr:last-child td { border-bottom: none; }
+.briefing-box { position: relative; padding: 18px; background: rgba(0,0,0,.28); }
+pre, code, textarea { font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace; }
+pre {
+  white-space: pre-wrap;
+  color: #f5fff9;
+  margin: 0;
+  line-height: 1.5;
+  font-size: .92rem;
+}
+code {
+  color: var(--brand-mint);
+  background: rgba(0,0,0,.18);
+  padding: .1rem .28rem;
+  border-radius: 6px;
+}
+.prompt-box {
+  margin-top: 16px;
+  padding: 16px;
+  display: grid;
+  gap: 12px;
+  background: rgba(0,0,0,.28);
+}
+.prompt-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: center;
+}
+.prompt-head strong { color: var(--brand-cta); }
+.mini-copy {
+  border: 1px solid rgba(37,206,123,.55);
+  background: rgba(37,206,123,.12);
+  color: var(--brand-cta);
+  border-radius: 999px;
+  padding: 9px 14px;
+  cursor: pointer;
+  font-weight: 800;
+  transition: var(--transition);
+}
+.mini-copy:hover { background: var(--brand-cta); color: #00170b; }
+.prompt-box textarea {
+  width: 100%;
+  min-height: 270px;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: rgba(0,0,0,.36);
+  color: #f5fff9;
+  padding: 15px;
+  resize: vertical;
+  line-height: 1.48;
+  font-size: .92rem;
+}
+.check-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+.check-grid.one { grid-template-columns: 1fr; }
+.check-grid label {
+  border: 1px solid var(--border);
+  background: var(--surface-2);
+  border-radius: 14px;
+  padding: 12px 14px;
+  color: #f5fff9;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+.check-grid input { accent-color: var(--brand-cta); width: 18px; height: 18px; flex: 0 0 auto; }
+.result-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+.source-list { line-height: 1.9; color: var(--muted); }
+.controls {
+  position: fixed;
+  right: 34px;
+  bottom: 28px;
+  left: 344px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 60;
+  pointer-events: none;
+}
+.controls-group { display: flex; gap: 10px; pointer-events: auto; }
+.control-btn {
+  border: 1px solid rgba(37,206,123,.45);
+  color: var(--text);
+  background: rgba(0,0,0,.42);
+  border-radius: 999px;
+  padding: 12px 16px;
+  cursor: pointer;
+  font-weight: 800;
+  backdrop-filter: blur(14px);
+  transition: var(--transition);
+}
+.control-btn:hover { background: var(--brand-cta); color: #00170b; }
+.control-btn:disabled { opacity: .35; cursor: not-allowed; }
+.counter {
+  pointer-events: auto;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+  background: rgba(0,0,0,.42);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 10px 14px;
+  backdrop-filter: blur(14px);
+}
+.notes-panel {
+  position: fixed;
+  right: 34px;
+  top: 34px;
+  width: min(420px, calc(100% - 68px));
+  max-height: 45vh;
+  overflow: auto;
+  padding: 18px;
+  background: rgba(0,0,0,.88);
+  border: 1px solid rgba(255,158,27,.42);
+  border-radius: 18px;
+  box-shadow: var(--shadow);
+  transform: translateY(-14px);
+  opacity: 0;
+  visibility: hidden;
+  transition: var(--transition);
+  z-index: 80;
+}
+.notes-panel.show { transform: translateY(0); opacity: 1; visibility: visible; }
+.notes-panel h3 { color: var(--builder); margin-bottom: 8px; }
+.notes-panel p { margin: 0; font-size: .95rem; }
+.mobile-menu-btn { display: none; }
+@media (max-width: 980px) {
+  .deck { grid-template-columns: 1fr; }
+  .sidebar {
+    position: fixed; inset: 0 auto 0 0; width: min(330px, 86vw);
+    transform: translateX(-105%);
+    z-index: 70;
+  }
+  .sidebar.open { transform: translateX(0); }
+  .slides { padding: 38px 18px 112px; }
+  .slide { width: calc(100% - 28px); padding: 28px; max-height: calc(100vh - 152px); }
+  .controls { left: 18px; right: 18px; }
+  .mobile-menu-btn { display: inline-flex; }
+  .hero-layout, .grid.two, .grid.three, .timeline, .result-grid, .check-grid { grid-template-columns: 1fr; }
+  .funnel div { grid-template-columns: 1fr; gap: 4px; }
+}
+@media print {
+  body { overflow: visible; background: white; color: black; }
+  .sidebar, .controls, .progress-shell, .notes-panel { display: none !important; }
+  .deck, .stage, .slides { display: block; height: auto; padding: 0; }
+  .slide { position: relative; opacity: 1; visibility: visible; transform: none; width: 100%; max-height: none; page-break-after: always; box-shadow: none; border: 1px solid #ddd; color: black; background: white; }
+  .slide * { color: black !important; }
+}
+</style>
+</head>
+<body>
+<div class="progress-shell"><div class="progress-bar" id="progressBar"></div></div>
+<div class="deck">
+  <aside class="sidebar" id="sidebar">
+    <h2>Workshop LP + IA</h2>
+    <p>Roteiro prático para criar uma LP no HubSpot e evoluir com módulo e componente customizado.</p>
+    <nav id="slideNav"></nav>
+  </aside>
+  <main class="stage">
+    <div class="slides" id="slides">
+      <section class="slide active" id="slide-0" data-title="Landing Page no HubSpot + IA" data-notes="Abra dizendo que a aula terá construção ao vivo: LP nativa, módulo com formulário e componente de depoimentos.">
+
+<div class="hero-layout">
+  <div>
+    <div class="slide-kicker">Workshop prático</div>
+    <h1>Landing Page no HubSpot + IA</h1>
+    <p class="lead">Vamos montar uma LP de campanha para um novo pacote integrado com <strong>Eberick + Builder + Visus</strong>, usando HubSpot, VS Code, Gemini Code Assist, Codex e Live Server.</p>
+    <div class="tag-row">
+      <span>LP de 4 seções</span><span>Formulário: Teste-form-lp+IA</span><span>Módulo com form</span><span>Componente de depoimentos</span>
+    </div>
+  </div>
+  <div class="big-card accent-card">
+    <strong>Entrega da aula</strong>
+    <small>Uma LP criada no HubSpot, um módulo customizado com formulário selecionável e uma seção editável de depoimentos com cards em movimento.</small>
+  </div>
+</div>
+
+</section>
+<section class="slide" id="slide-1" data-title="O que será aprendido na aula" data-notes="Mostre que o foco é prático: entender o básico e aplicar no editor.">
+
+<div class="slide-kicker">Visão geral</div>
+<h1>O que será aprendido na aula</h1>
+<div class="grid three">
+<div class="card "><h3>Conceito</h3><p>O que é uma landing page e por que ela existe dentro de uma campanha.</p></div>
+<div class="card "><h3>Briefing</h3><p>Quais informações precisam estar alinhadas antes de abrir o HubSpot.</p></div>
+<div class="card "><h3>HubSpot nativo</h3><p>Como montar uma LP com seções, módulos, formulário, âncoras e URL.</p></div>
+<div class="card "><h3>IA aplicada</h3><p>Como usar Gemini Code Assist e Codex para estruturar copy, HTML, CSS, JS e QA.</p></div>
+<div class="card "><h3>Módulo</h3><p>Como pedir à IA um módulo HubSpot com formulário selecionável.</p></div>
+<div class="card "><h3>Componente</h3><p>Como criar uma seção editável de depoimentos com cards que passam e pausam no hover.</p></div>
+</div>
+<div class="activity"><strong>Atividade geral:</strong> todos os exercícios usam o mesmo briefing-teste da campanha Eberick + Builder + Visus.</div>
+
+</section>
+<section class="slide" id="slide-2" data-title="O que é uma Landing Page" data-notes="Explique de forma curta; o objetivo é alinhar vocabulário.">
+
+<div class="slide-kicker">Fundamento</div>
+<h1>O que é uma Landing Page</h1>
+<p class="lead">Landing page é uma página com foco em uma ação principal. Ela remove distrações e guia a pessoa para uma conversão: preencher um formulário, pedir contato, baixar um material, solicitar demo ou se inscrever em uma campanha.</p>
+<div class="funnel">
+  <div><strong>Tráfego</strong><span>Anúncio, e-mail, social, evento, orgânico ou remarketing.</span></div>
+  <div><strong>Mensagem</strong><span>Promessa clara, oferta relevante e prova de confiança.</span></div>
+  <div><strong>Conversão</strong><span>CTA + formulário + confirmação do próximo passo.</span></div>
+</div>
+
+</section>
+<section class="slide" id="slide-3" data-title="Por que usar uma LP" data-notes="Conecte com performance e mensuração.">
+
+<div class="slide-kicker">Fundamento</div>
+<h1>Por que usar uma LP</h1>
+<div class="grid three">
+<div class="card "><h3>Foco</h3><p>Uma página, uma campanha e uma ação principal. Isso reduz dispersão.</p></div>
+<div class="card "><h3>Medição</h3><p>Fica mais fácil medir conversão, origem do lead e qualidade do tráfego.</p></div>
+<div class="card "><h3>Velocidade</h3><p>Permite testar oferta, mensagem, CTA e formulário sem mexer no site inteiro.</p></div>
+<div class="card "><h3>Personalização</h3><p>A LP pode falar diretamente com a dor de um público ou campanha.</p></div>
+<div class="card "><h3>Aprendizado</h3><p>Cada campanha gera dados para melhorar a próxima versão.</p></div>
+<div class="card "><h3>Escala</h3><p>O template vira base para novas campanhas e variações.</p></div>
+</div>
+
+</section>
+<section class="slide" id="slide-4" data-title="O briefing" data-notes="Use como checklist antes da atividade.">
+
+<div class="slide-kicker">Briefing</div>
+<h1>O briefing</h1>
+<p class="lead">Antes de abrir o HubSpot ou pedir algo para a IA, o briefing precisa deixar claro o que a página deve comunicar, para quem e com qual ação principal.</p>
+<div class="check-grid"><label><input type="checkbox"> <span>Nome da campanha</span></label>
+<label><input type="checkbox"> <span>Objetivo principal da LP</span></label>
+<label><input type="checkbox"> <span>Oferta, se tiver</span></label>
+<label><input type="checkbox"> <span>Produtos envolvidos</span></label>
+<label><input type="checkbox"> <span>Público/persona</span></label>
+<label><input type="checkbox"> <span>Dor principal</span></label>
+<label><input type="checkbox"> <span>Promessa da página</span></label>
+<label><input type="checkbox"> <span>CTA principal</span></label>
+<label><input type="checkbox"> <span>Formulário HubSpot: nome do formulário ou link</span></label>
+<label><input type="checkbox"> <span>Estrutura da LP</span></label>
+<label><input type="checkbox"> <span>Provas de confiança, desejável se tiver</span></label>
+<label><input type="checkbox"> <span>Cores, identidade e referência visual</span></label>
+<label><input type="checkbox"> <span>Logos e imagens</span></label>
+<label><input type="checkbox"> <span>URL desejada, SEO title e meta description</span></label></div>
+<div class="callout"><strong>Regra da aula:</strong> briefing bom não precisa ser longo; precisa ser claro o suficiente para orientar design, copy, formulário e prompts.</div>
+
+</section>
+<section class="slide" id="slide-5" data-title="Template de briefing" data-notes="Peça para a turma reconhecer cada item antes do exemplo.">
+
+<div class="slide-kicker">Briefing</div>
+<h1>Template de briefing</h1>
+<p class="lead">Este é o modelo base para preencher antes de montar uma LP ou gerar qualquer prompt.</p>
+
+    <div class="prompt-box">
+      <div class="prompt-head">
+        <strong>Template copiável de briefing</strong>
+        <button class="mini-copy" onclick="copyFromBox(this)">Copiar prompt</button>
+      </div>
+      <textarea readonly>Nome da campanha:
+Objetivo principal da LP:
+Oferta (se tiver):
+Produtos envolvidos:
+Público/persona:
+Dor principal:
+Promessa da página:
+CTA principal:
+Formulário HubSpot:
+Estrutura da LP:
+1. Hero:
+2. Benefícios:
+3. Como funciona:
+4. Conversão/Formulário:
+Provas de confiança: se tiver
+Cores e identidade: (modelo referência que quer seguir, se tiver)
+Logos e imagens:
+URL desejada:
+SEO title:
+Meta description:</textarea>
+    </div>
+    
+<div class="activity"><strong>Atividade sugerida:</strong> preencher este template com o briefing-teste abaixo antes de montar a LP.</div>
+
+</section>
+<section class="slide" id="slide-6" data-title="Briefing-teste do workshop" data-notes="Este é o insumo oficial dos três exercícios.">
+
+<div class="slide-kicker">Briefing</div>
+<h1>Briefing-teste do workshop</h1>
+<div class="briefing-box">
+<pre>Nome da campanha: Novo pacote integrado Eberick + Builder + Visus
+Objetivo principal da LP: gerar leads interessados em conhecer o pacote integrado.
+Oferta (se tiver): contato consultivo para entender como o pacote pode melhorar o fluxo de trabalho.
+Produtos envolvidos: Eberick, Builder e Visus.
+Público/persona: profissionais e empresas de engenharia, arquitetura, orçamento e coordenação de projetos.
+Dor principal: retrabalho entre projeto estrutural, orçamento e apresentação visual.
+Promessa da página: conectar estrutura, orçamento e visualização em um fluxo mais claro, rápido e integrado.
+CTA principal: Quero conhecer o pacote
+Formulário HubSpot: Teste-form-lp+IA
+
+Estrutura obrigatória da LP: 4 seções
+
+1. Hero:
+Headline exemplo: Conecte Eberick, Builder e Visus em um fluxo integrado de projeto
+Subheadline exemplo: Um pacote para aproximar estrutura, orçamento e visualização, reduzindo retrabalho e acelerando decisões.
+CTA exemplo: Quero conhecer o pacote
+Texto de apoio: Ideal para equipes que precisam transformar informação técnica em decisão clara.
+
+2. Benefícios por produto:
+Texto de abertura exemplo: Cada produto atua em uma etapa essencial do processo, criando uma experiência mais conectada do projeto à apresentação.
+Card Eberick: Estruture projetos com mais precisão, compatibilização e segurança nas decisões técnicas.
+Card Builder: Transforme informações do projeto em orçamento, planejamento e controle mais organizados.
+Card Visus: Apresente o projeto com visualização clara para facilitar entendimento, alinhamento e aprovação.
+
+3. Como funciona o pacote:
+Headline exemplo: Do cálculo à apresentação, tudo conversa melhor
+Passo 1: Desenvolva o projeto estrutural no Eberick.
+Passo 2: Organize orçamento, planejamento e dados de execução no Builder.
+Passo 3: Use o Visus para visualizar, comunicar e vender melhor a solução.
+Texto de fechamento: O pacote ajuda a reduzir ruídos entre áreas e torna o fluxo mais compreensível para equipe, cliente e decisores.
+
+4. Conversão/Formulário:
+Headline exemplo: Veja como o pacote pode funcionar no seu cenário
+Texto exemplo: Preencha o formulário e fale com o time para entender a melhor forma de usar Eberick, Builder e Visus juntos.
+Formulário: Teste-form-lp+IA
+Reforço de confiança: atendimento consultivo, foco em produtividade e solução pensada para profissionais da construção.
+
+Provas de confiança: se tiver, usar logos de clientes, números, depoimentos ou cases; na aula, usar placeholders.
+Cores e identidade: seguir paleta da marca, estética B2B tecnológica, limpa e com boa conversão.
+Logos e imagens: inserir durante a aula usando URL do HubSpot.
+URL desejada: /lp/pacote-eberick-builder-visus
+SEO title: Pacote Eberick, Builder e Visus | Solução integrada
+Meta description: Conheça o pacote integrado Eberick, Builder e Visus para conectar estrutura, orçamento e visualização em um fluxo mais eficiente.</pre>
+</div>
+<div class="activity"><strong>Atividade sugerida:</strong> criar primeiro a LP nativa no HubSpot usando exatamente este briefing e os textos de exemplo.</div>
+
+</section>
+<section class="slide" id="slide-7" data-title="Prompt base: estética, fonte, cores e logos" data-notes="Explique que os placeholders de logo existem para você demonstrar a captura de URL no HubSpot.">
+
+<div class="slide-kicker">Prompt visual</div>
+<h1>Prompt base: estética, fonte, cores e logos</h1>
+<p class="lead">Use este prompt antes de gerar copy, seção ou código. Ele padroniza fonte, paleta, logos e tokens visuais da campanha.</p>
+
+    <div class="prompt-box">
+      <div class="prompt-head">
+        <strong>Prompt de estética, fonte, cores e logos</strong>
+        <button class="mini-copy" onclick="copyFromBox(this)">Copiar prompt</button>
+      </div>
+      <textarea readonly>Você é um designer sênior criando a direção visual de uma landing page B2B para HubSpot.
+
+Contexto:
+A LP será de uma campanha de novo pacote integrado para os produtos Eberick + Builder + Visus.
+A página será montada no HubSpot e deve funcionar bem com módulos nativos e módulos customizados.
+
+Fonte obrigatória:
+Usar Poppins como fonte principal da LP.
+Quando gerar HTML completo, incluir este código no &lt;head&gt;:
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&amp;display=swap" rel="stylesheet">
+
+CSS base da fonte:
+font-family: "Poppins", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+
+Paleta obrigatória:
+- Verde escuro principal: #115134
+- Preto: #000000
+- Branco: #FFFFFF
+- Verde claro / CTA: #25CE7B
+- Cinza secundário: #64656A
+- Verde menta secundário: #95E2C0
+- Eberick: #00D7FF
+- Builder: #FF9E1B
+- Visus: #A15FE3
+
+Tokens CSS sugeridos:
+:root {
+  --brand-dark: #115134;
+  --brand-black: #000000;
+  --brand-white: #FFFFFF;
+  --brand-cta: #25CE7B;
+  --brand-gray: #64656A;
+  --brand-mint: #95E2C0;
+  --eberick: #00D7FF;
+  --builder: #FF9E1B;
+  --visus: #A15FE3;
+}
+
+Direção visual desejada:
+- Visual profissional, tecnológico, limpo e de alta conversão.
+- Fundo majoritariamente branco ou muito claro, com áreas de contraste em verde escuro.
+- Botões primários em #25CE7B com texto em #000000 ou #115134 quando houver contraste suficiente.
+- Usar #115134 para títulos fortes, faixas institucionais e blocos de autoridade.
+- Usar as cores dos produtos como acentos em cards, tags, linhas e ícones, sem poluir a página.
+- Criar hierarquia clara: headline forte, subheadline objetiva, CTA visível e formulário fácil de encontrar.
+- Garantir contraste, espaçamento generoso e leitura confortável no mobile.
+
+Logos:
+Não invente URLs de logos.
+Use placeholders com estes textos:
+- [INSERIR LOGO INSTITUCIONAL VIA URL DO HUBSPOT]
+- [INSERIR LOGO EBERICK VIA URL DO HUBSPOT]
+- [INSERIR LOGO BUILDER VIA URL DO HUBSPOT]
+- [INSERIR LOGO VISUS VIA URL DO HUBSPOT]
+
+Entregue:
+1. Direção estética em 6 bullets.
+2. Tokens CSS com variáveis de cor e fonte.
+3. Sugestão de uso de cores por seção da LP.
+4. Sugestão de cards para Eberick, Builder e Visus.
+5. Regras para imagem, logos e botões.
+6. Cuidados de acessibilidade e contraste.</textarea>
+    </div>
+    
+
+</section>
+<section class="slide" id="slide-8" data-title="Apps e sistemas que vamos usar" data-notes="Apresente as ferramentas sem entrar em instalação longa.">
+
+<div class="slide-kicker">Ferramentas</div>
+<h1>Apps e sistemas que vamos usar</h1>
+<div class="grid two">
+  <div class="tool-card"><div class="tool-icon">H</div><div><h3>HubSpot</h3><p>Editor da LP, formulário, arquivos, Design Manager, publicação e atualização.</p></div></div>
+  <div class="tool-card"><div class="tool-icon">VS</div><div><h3>VS Code</h3><p>Ambiente para organizar HTML, CSS, JS e testar a base do componente.</p></div></div>
+  <div class="tool-card"><div class="tool-icon">G</div><div><h3>Gemini Code Assist</h3><p>Apoio para gerar, revisar e transformar trechos de código dentro do IDE.</p></div></div>
+  <div class="tool-card"><div class="tool-icon">C</div><div><h3>Codex</h3><p>Apoio para criar, refatorar e revisar módulos e componentes com contexto de arquivos.</p></div></div>
+  <div class="tool-card"><div class="tool-icon">LS</div><div><h3>Live Server</h3><p>Preview local de HTML/CSS/JS com recarregamento no navegador.</p></div></div>
+</div>
+
+</section>
+<section class="slide" id="slide-9" data-title="Introdução ao HubSpot — checks" data-notes="Esta seção deve ser conduzida como checklist demonstrativo, sem transformar em aula teórica.">
+
+<div class="slide-kicker">HubSpot</div>
+<h1>Introdução ao HubSpot — checks</h1>
+<p class="lead">Esta parte da aula é só marcação prática: mostrar na tela e seguir.</p>
+<div class="check-grid"><label><input type="checkbox"> <span>Acessar a conta HubSpot</span></label>
+<label><input type="checkbox"> <span>Reconhecer a navegação principal</span></label>
+<label><input type="checkbox"> <span>Localizar Conteúdo</span></label>
+<label><input type="checkbox"> <span>Localizar Landing Pages</span></label>
+<label><input type="checkbox"> <span>Abrir a lista de LPs</span></label>
+<label><input type="checkbox"> <span>Identificar rascunhos, publicadas e atualizadas</span></label>
+<label><input type="checkbox"> <span>Abrir uma LP existente</span></label>
+<label><input type="checkbox"> <span>Entender onde fica o preview</span></label>
+<label><input type="checkbox"> <span>Entender onde fica publicar/atualizar</span></label>
+<label><input type="checkbox"> <span>Entender onde ficam configurações da página</span></label></div>
+
+</section>
+<section class="slide" id="slide-10" data-title="LPs direto no Hub — checks" data-notes="Demonstre uma página no editor e marque conforme avança.">
+
+<div class="slide-kicker">HubSpot</div>
+<h1>LPs direto no Hub — checks</h1>
+<div class="check-grid"><label><input type="checkbox"> <span>Criar ou abrir uma landing page</span></label>
+<label><input type="checkbox"> <span>Escolher template/tema disponível</span></label>
+<label><input type="checkbox"> <span>Entender a estrutura de seções</span></label>
+<label><input type="checkbox"> <span>Selecionar uma seção</span></label>
+<label><input type="checkbox"> <span>Adicionar nova seção</span></label>
+<label><input type="checkbox"> <span>Remover uma seção</span></label>
+<label><input type="checkbox"> <span>Duplicar uma seção</span></label>
+<label><input type="checkbox"> <span>Reordenar seções</span></label>
+<label><input type="checkbox"> <span>Entender painel lateral de edição</span></label>
+<label><input type="checkbox"> <span>Visualizar desktop e mobile</span></label>
+<label><input type="checkbox"> <span>Salvar rascunho</span></label>
+<label><input type="checkbox"> <span>Pré-visualizar a página</span></label></div>
+
+</section>
+<section class="slide" id="slide-11" data-title="Módulos nativos — checks" data-notes="Mostre cada módulo rapidamente no editor.">
+
+<div class="slide-kicker">HubSpot</div>
+<h1>Módulos nativos — checks</h1>
+<div class="check-grid"><label><input type="checkbox"> <span>Função dos módulos</span></label>
+<label><input type="checkbox"> <span>Adicionar imagem</span></label>
+<label><input type="checkbox"> <span>Editar texto alternativo da imagem</span></label>
+<label><input type="checkbox"> <span>Adicionar botão</span></label>
+<label><input type="checkbox"> <span>Configurar link/âncora do botão</span></label>
+<label><input type="checkbox"> <span>Criar grade de logos</span></label>
+<label><input type="checkbox"> <span>Inserir vídeo</span></label>
+<label><input type="checkbox"> <span>Editar bloco de texto</span></label>
+<label><input type="checkbox"> <span>Ajustar espaçamento</span></label>
+<label><input type="checkbox"> <span>Inserir formulário</span></label>
+<label><input type="checkbox"> <span>Selecionar formulário Teste-form-lp+IA</span></label>
+<label><input type="checkbox"> <span>Criar ancoragem para a seção do formulário</span></label></div>
+
+</section>
+<section class="slide" id="slide-12" data-title="URL, SEO, publicação e atualização — checks" data-notes="Mantenha em checklist e conecte com a publicação da atividade.">
+
+<div class="slide-kicker">HubSpot</div>
+<h1>URL, SEO, publicação e atualização — checks</h1>
+<div class="check-grid"><label><input type="checkbox"> <span>Definir nome interno da página</span></label>
+<label><input type="checkbox"> <span>Definir título da página</span></label>
+<label><input type="checkbox"> <span>Definir URL curta, legível e sem acentos</span></label>
+<label><input type="checkbox"> <span>Evitar slug genérico como /teste ou /landing-page</span></label>
+<label><input type="checkbox"> <span>Usar palavra-chave da campanha no slug</span></label>
+<label><input type="checkbox"> <span>Escrever meta description objetiva</span></label>
+<label><input type="checkbox"> <span>Conferir domínio correto</span></label>
+<label><input type="checkbox"> <span>Conferir imagem social quando aplicável</span></label>
+<label><input type="checkbox"> <span>Publicar a LP</span></label>
+<label><input type="checkbox"> <span>Abrir URL publicada em aba anônima</span></label>
+<label><input type="checkbox"> <span>Fazer uma alteração simples</span></label>
+<label><input type="checkbox"> <span>Atualizar página publicada</span></label>
+<label><input type="checkbox"> <span>Revisar se formulário e âncoras continuam funcionando</span></label></div>
+<div class="callout"><strong>URL sugerida para o exercício:</strong> /lp/pacote-eberick-builder-visus</div>
+
+</section>
+<section class="slide" id="slide-13" data-title="Atividade 1: criar LP somente no HubSpot" data-notes="Nesta atividade, nada de código customizado: a ideia é mostrar o que já dá para fazer direto no editor.">
+
+<div class="slide-kicker">Atividade 1</div>
+<h1>Criar LP somente no HubSpot</h1>
+<p class="lead">A primeira entrega é uma LP nativa, feita direto no HubSpot, com 4 seções e o formulário <strong>Teste-form-lp+IA</strong>.</p>
+<div class="grid two">
+  <div class="card">
+    <h3>Estrutura obrigatória</h3>
+    <ul>
+      <li><strong>1. Hero:</strong> headline, subheadline, CTA e âncora.</li>
+      <li><strong>2. Produtos:</strong> cards Eberick, Builder e Visus.</li>
+      <li><strong>3. Fluxo:</strong> como o pacote integrado funciona.</li>
+      <li><strong>4. Conversão:</strong> formulário + reforço de confiança.</li>
+    </ul>
+  </div>
+  <div class="card">
+    <h3>Checklist da entrega</h3>
+    <div class="check-grid one"><label><input type="checkbox"> <span>LP criada no HubSpot</span></label>
+<label><input type="checkbox"> <span>4 seções montadas</span></label>
+<label><input type="checkbox"> <span>CTA levando ao formulário</span></label>
+<label><input type="checkbox"> <span>Formulário Teste-form-lp+IA selecionado</span></label>
+<label><input type="checkbox"> <span>Cores aplicadas</span></label>
+<label><input type="checkbox"> <span>Placeholders de logos preparados</span></label>
+<label><input type="checkbox"> <span>URL e SEO preenchidos</span></label>
+<label><input type="checkbox"> <span>Preview mobile revisado</span></label></div>
+  </div>
+</div>
+
+    <div class="prompt-box">
+      <div class="prompt-head">
+        <strong>Prompt opcional para estruturar a LP nativa</strong>
+        <button class="mini-copy" onclick="copyFromBox(this)">Copiar prompt</button>
+      </div>
+      <textarea readonly>Você é especialista em landing pages B2B e HubSpot.
+
+Crie a estrutura de uma LP de 4 seções para uma campanha de novo pacote integrado Eberick + Builder + Visus.
+
+Briefing:
+- Nome da campanha: Novo pacote integrado Eberick + Builder + Visus.
+- Objetivo principal da LP: gerar leads interessados em conhecer o pacote integrado.
+- Oferta: contato consultivo para entender como o pacote pode melhorar o fluxo de trabalho.
+- Produtos: Eberick, Builder e Visus.
+- Público/persona: profissionais e empresas de engenharia, arquitetura, orçamento e coordenação de projetos.
+- Dor principal: retrabalho entre projeto estrutural, orçamento e apresentação visual.
+- Promessa da página: conectar estrutura, orçamento e visualização em um fluxo mais claro, rápido e integrado.
+- CTA principal: Quero conhecer o pacote.
+- Formulário HubSpot: Teste-form-lp+IA.
+
+Fonte e código:
+- Usar Poppins como fonte principal.
+- Se gerar HTML completo, incluir no &lt;head&gt;:
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&amp;display=swap" rel="stylesheet">
+- CSS da fonte: font-family: "Poppins", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+
+Paleta:
+- #115134, #000000, #FFFFFF, #25CE7B, #64656A, #95E2C0, #00D7FF, #FF9E1B, #A15FE3.
+- Logos: usar placeholders [INSERIR LOGO ... VIA URL DO HUBSPOT].
+
+Estrutura obrigatória:
+1. Hero com promessa clara, subheadline e CTA para o formulário.
+2. Benefícios por produto com 3 cards: Eberick, Builder e Visus.
+3. Seção "Como o pacote funciona" mostrando o fluxo integrado de projeto, orçamento e visualização.
+4. Seção final de conversão com formulário HubSpot Teste-form-lp+IA e reforço de confiança.
+
+Textos de exemplo para usar:
+1. Hero:
+Headline: Conecte Eberick, Builder e Visus em um fluxo integrado de projeto.
+Subheadline: Um pacote para aproximar estrutura, orçamento e visualização, reduzindo retrabalho e acelerando decisões.
+CTA: Quero conhecer o pacote.
+
+2. Benefícios:
+Eberick: Estruture projetos com mais precisão, compatibilização e segurança nas decisões técnicas.
+Builder: Transforme informações do projeto em orçamento, planejamento e controle mais organizados.
+Visus: Apresente o projeto com visualização clara para facilitar entendimento, alinhamento e aprovação.
+
+3. Como funciona:
+Passo 1: Desenvolva o projeto estrutural no Eberick.
+Passo 2: Organize orçamento, planejamento e dados de execução no Builder.
+Passo 3: Use o Visus para visualizar, comunicar e vender melhor a solução.
+
+4. Conversão/Formulário:
+Headline: Veja como o pacote pode funcionar no seu cenário.
+Texto: Preencha o formulário e fale com o time para entender a melhor forma de usar Eberick, Builder e Visus juntos.
+Reforço: Atendimento consultivo, foco em produtividade e solução pensada para profissionais da construção.
+
+Para cada seção, entregue:
+- objetivo da seção;
+- headline;
+- subheadline;
+- módulos nativos do HubSpot sugeridos;
+- texto base;
+- CTA quando aplicável;
+- observação de design.</textarea>
+    </div>
+    
+
+</section>
+<section class="slide" id="slide-14" data-title="Introdução à IA para LP no HubSpot" data-notes="Mostre IA como acelerador, não como substituição de briefing.">
+
+<div class="slide-kicker">IA</div>
+<h1>Introdução à IA para LP no HubSpot</h1>
+<div class="timeline">
+  <div><b>1</b><span>Briefing claro: objetivo, oferta, público, seções e formulário.</span></div>
+  <div><b>2</b><span>IA para estruturar copy, hierarquia, variações e prompts.</span></div>
+  <div><b>3</b><span>IA para gerar HTML, CSS, JS e campos editáveis.</span></div>
+  <div><b>4</b><span>Humano valida no HubSpot: edição, preview, QA e publicação.</span></div>
+</div>
+<div class="callout"><strong>Regra da aula:</strong> todo prompt precisa informar que o destino é HubSpot, porque isso muda HTML, HubL, campos e forma de renderizar formulário.</div>
+
+</section>
+<section class="slide" id="slide-15" data-title="Design Manager — checks" data-notes="Mostre a área onde os códigos serão colados.">
+
+<div class="slide-kicker">HubSpot avançado</div>
+<h1>Design Manager — checks</h1>
+<div class="check-grid"><label><input type="checkbox"> <span>Abrir Content > Design Manager</span></label>
+<label><input type="checkbox"> <span>Localizar pasta do projeto/tema</span></label>
+<label><input type="checkbox"> <span>Criar ou abrir um módulo</span></label>
+<label><input type="checkbox"> <span>Reconhecer module.html</span></label>
+<label><input type="checkbox"> <span>Reconhecer module.css</span></label>
+<label><input type="checkbox"> <span>Reconhecer module.js</span></label>
+<label><input type="checkbox"> <span>Reconhecer fields.json</span></label>
+<label><input type="checkbox"> <span>Reconhecer meta.json</span></label>
+<label><input type="checkbox"> <span>Entender campos editáveis do módulo</span></label>
+<label><input type="checkbox"> <span>Usar preview do módulo</span></label>
+<label><input type="checkbox"> <span>Salvar alterações</span></label>
+<label><input type="checkbox"> <span>Testar o módulo dentro de uma página</span></label></div>
+<div class="callout"><strong>Ideia-chave:</strong> no HubSpot, as variáveis do componente viram campos editáveis no editor da página.</div>
+
+</section>
+<section class="slide" id="slide-16" data-title="Atividade 2: briefing do módulo com formulário" data-notes="Explique que este exercício parte do visual da LP nativa, sem reinventar estética.">
+
+<div class="slide-kicker">Atividade 2</div>
+<h1>Briefing do módulo com formulário</h1>
+<p class="lead">O briefing do módulo é <strong>igual ao da LP nativa</strong>. A diferença é que agora vamos encapsular a seção de conversão em um módulo customizado.</p>
+<div class="grid two">
+  <div class="card">
+    <h3>O módulo precisa ter</h3>
+    <ul>
+      <li>Seção completa de conversão.</li>
+      <li>Texto de apoio editável.</li>
+      <li>Lista curta de benefícios.</li>
+      <li>Imagem opcional.</li>
+      <li>Campo Form para selecionar formulário no HubSpot.</li>
+      <li>Formulário usado na aula: <strong>Teste-form-lp+IA</strong>.</li>
+    </ul>
+  </div>
+  <div class="card">
+    <h3>Variáveis pensadas para HubSpot</h3>
+    <ul>
+      <li><code>anchor_id</code></li>
+      <li><code>eyebrow</code></li>
+      <li><code>title</code></li>
+      <li><code>description</code></li>
+      <li><code>benefits</code> repetidor</li>
+      <li><code>form_field</code> do tipo Form</li>
+      <li><code>privacy_note</code></li>
+      <li><code>spacing</code> e estilos</li>
+    </ul>
+  </div>
+</div>
+<div class="activity"><strong>Atividade sugerida:</strong> usar IA para gerar o módulo, colar no Design Manager e selecionar o formulário no editor da LP.</div>
+
+</section>
+<section class="slide" id="slide-17" data-title="Prompt para módulo com formulário selecionável" data-notes="Leia o prompt e destaque a linha que pede form_field do tipo form.">
+
+<div class="slide-kicker">Atividade 2</div>
+<h1>Prompt para módulo com formulário selecionável</h1>
+<p class="lead">Este prompt gera o exercício do módulo. O ponto crítico é não travar um <code>form_id</code>; o formulário deve ser escolhido no HubSpot.</p>
+
+    <div class="prompt-box">
+      <div class="prompt-head">
+        <strong>Prompt do exercício 2 — módulo com formulário</strong>
+        <button class="mini-copy" onclick="copyFromBox(this)">Copiar prompt</button>
+      </div>
+      <textarea readonly>Você é desenvolvedor HubSpot CMS e front-end.
+
+Crie um módulo customizado HubSpot para uma seção de conversão com formulário selecionável no editor do HubSpot.
+O briefing do módulo é igual ao briefing da LP nativa do workshop.
+
+Contexto da LP:
+- Nome da campanha: Novo pacote integrado Eberick + Builder + Visus.
+- Objetivo principal da LP: gerar leads interessados em conhecer o pacote integrado.
+- Oferta: contato consultivo sobre o pacote.
+- Produtos envolvidos: Eberick, Builder e Visus.
+- Público/persona: profissionais e empresas de engenharia, arquitetura, orçamento e coordenação de projetos.
+- Dor principal: retrabalho entre projeto estrutural, orçamento e apresentação visual.
+- Promessa da página: conectar estrutura, orçamento e visualização em um fluxo mais claro, rápido e integrado.
+- CTA principal: Quero conhecer o pacote.
+- Formulário que será selecionado no editor da página: Teste-form-lp+IA.
+- Não fixar form_id no código. O editor precisa conseguir escolher o formulário pelo campo Form do HubSpot.
+
+Fonte e código:
+A LP/template deve carregar Poppins no &lt;head&gt; com este snippet:
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&amp;display=swap" rel="stylesheet">
+
+No CSS do módulo, usar:
+font-family: "Poppins", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+
+Observação: se o tema da LP já carregar a fonte globalmente, não duplicar o link dentro do módulo; apenas usar a família no CSS ou herdar da página.
+
+Paleta obrigatória e tokens CSS:
+:root {
+  --brand-dark: #115134;
+  --brand-black: #000000;
+  --brand-white: #FFFFFF;
+  --brand-cta: #25CE7B;
+  --brand-gray: #64656A;
+  --brand-mint: #95E2C0;
+  --eberick: #00D7FF;
+  --builder: #FF9E1B;
+  --visus: #A15FE3;
+}
+
+Objetivo do módulo:
+Criar uma seção de conversão com texto de apoio, lista curta de benefícios, imagem opcional e formulário HubSpot selecionável pelo editor.
+
+Campos editáveis obrigatórios no fields.json:
+- anchor_id: text
+- eyebrow: text
+- title: text
+- description: richtext
+- benefits: grupo repetidor com text, icon_label e accent_choice
+- form_field: form
+- privacy_note: richtext
+- image: image opcional
+- background_style: choice
+- spacing_top e spacing_bottom: spacing ou choice
+- styles: grupo de estilos com background_color, title_color, text_color, accent_color e button_color
+
+Arquivos que você deve entregar:
+1. module.html com HTML + HubL.
+2. module.css com CSS escopado ao módulo.
+3. module.js apenas se necessário.
+4. fields.json.
+5. meta.json.
+6. Instruções rápidas de como criar o campo Form no Design Manager e selecionar o formulário Teste-form-lp+IA no editor da página.
+
+Requisitos técnicos:
+- Usar uma classe wrapper única, por exemplo .lp-form-section.
+- CSS deve ser escopado para evitar interferir em outros módulos.
+- O formulário deve ser renderizado pelo campo form_field selecionável no HubSpot.
+- Não criar formulário manual em HTML.
+- Não inserir um form_id fixo.
+- Use o snippet gerado pelo campo Form do Design Manager. Se precisar de referência, use este padrão:
+
+{% if module.form_field.form_id %}
+  {% form
+    form_to_use="{{ module.form_field.form_id }}"
+    response_response_type="{{ module.form_field.response_type }}"
+    response_message="{{ module.form_field.message }}"
+    response_redirect_id="{{ module.form_field.redirect_id }}"
+    response_redirect_url="{{ module.form_field.redirect_url }}"
+    gotowebinar_webinar_key="{{ module.form_field.gotowebinar_webinar_key }}"
+  %}
+{% else %}
+  &lt;p&gt;Selecione o formulário Teste-form-lp+IA no editor da página.&lt;/p&gt;
+{% endif %}
+
+Conteúdo inicial sugerido:
+- Eyebrow: Novo pacote integrado
+- Title: Veja como o pacote pode funcionar no seu cenário
+- Description: Preencha o formulário e fale com o time para entender a melhor forma de usar Eberick, Builder e Visus juntos.
+- Benefits:
+  1. Eberick: estrutura com mais precisão
+  2. Builder: orçamento e planejamento mais conectados
+  3. Visus: apresentação visual para decisão mais rápida
+- Privacy note: Ao enviar, você concorda em receber contato sobre a solução.
+
+Entregue código limpo, sem bibliotecas externas, responsivo e com comentários curtos explicando onde editar no HubSpot.</textarea>
+    </div>
+    
+
+</section>
+<section class="slide" id="slide-18" data-title="VS Code + plugins" data-notes="Mostre o fluxo local antes de colar no HubSpot.">
+
+<div class="slide-kicker">VS Code</div>
+<h1>VS Code + plugins</h1>
+<div class="grid two">
+  <div class="card"><h3>Fluxo sugerido</h3><ul>
+    <li>Criar pasta do exercício.</li>
+    <li>Separar <code>module.html</code>, <code>module.css</code>, <code>module.js</code>, <code>fields.json</code> e <code>meta.json</code>.</li>
+    <li>Usar Live Server para testar HTML/CSS estático.</li>
+    <li>Usar Gemini Code Assist ou Codex para revisar e refatorar.</li>
+    <li>Adaptar trechos HubL no Design Manager.</li>
+  </ul></div>
+  <div class="card"><h3>Cuidados</h3><ul>
+    <li>Não testar HubL puro como se fosse HTML comum.</li>
+    <li>Não usar biblioteca externa sem necessidade.</li>
+    <li>Escopar CSS por wrapper.</li>
+    <li>Conferir responsividade antes de publicar.</li>
+    <li>Validar o módulo dentro de uma LP real.</li>
+  </ul></div>
+</div>
+
+</section>
+<section class="slide" id="slide-19" data-title="Atividade 3: componente seção de depoimentos" data-notes="Reforce que o componente é uma seção completa.">
+
+<div class="slide-kicker">Atividade 3</div>
+<h1>Componente: seção de depoimentos</h1>
+<p class="lead">O componente será uma <strong>seção editável de depoimentos</strong> com cards que passam horizontalmente e pausam ao passar o mouse.</p>
+<div class="grid two">
+  <div class="card">
+    <h3>Comportamento</h3>
+    <ul>
+      <li>Cards em movimento contínuo.</li>
+      <li>Hover pausa a animação.</li>
+      <li>Foco por teclado também pausa.</li>
+      <li>Sem biblioteca externa.</li>
+      <li>Respeita <code>prefers-reduced-motion</code>.</li>
+    </ul>
+  </div>
+  <div class="card">
+    <h3>Conteúdo do card</h3>
+    <ul>
+      <li>Texto do depoimento.</li>
+      <li>Foto da pessoa.</li>
+      <li>Nome da pessoa.</li>
+      <li>Cargo/empresa opcional.</li>
+      <li>Acento visual por produto: Eberick, Builder, Visus ou neutro.</li>
+    </ul>
+  </div>
+</div>
+<div class="activity"><strong>Atividade sugerida:</strong> gerar o componente com IA, colar os arquivos no Design Manager e editar depoimentos pelo painel da página.</div>
+
+</section>
+<section class="slide" id="slide-20" data-title="Variáveis do componente de depoimentos" data-notes="Mostre que cada item vira campo editável no HubSpot.">
+
+<div class="slide-kicker">Atividade 3</div>
+<h1>Variáveis do componente de depoimentos</h1>
+<div class="table-wrap">
+<table>
+<thead><tr><th>Campo HubSpot</th><th>Tipo sugerido</th><th>Função no componente</th></tr></thead>
+<tbody>
+<tr><td><code>anchor_id</code></td><td>Text</td><td>Permite criar âncora para linkar até a seção.</td></tr>
+<tr><td><code>eyebrow</code></td><td>Text</td><td>Texto pequeno acima do título.</td></tr>
+<tr><td><code>title</code></td><td>Text</td><td>Título principal da seção.</td></tr>
+<tr><td><code>subtitle</code></td><td>Rich text</td><td>Descrição curta abaixo do título.</td></tr>
+<tr><td><code>testimonials</code></td><td>Repeater group</td><td>Lista editável de cards de depoimento.</td></tr>
+<tr><td><code>quote</code></td><td>Rich text</td><td>Texto do depoimento.</td></tr>
+<tr><td><code>person_photo</code></td><td>Image</td><td>Foto da pessoa.</td></tr>
+<tr><td><code>person_name</code></td><td>Text</td><td>Nome da pessoa.</td></tr>
+<tr><td><code>person_role</code></td><td>Text opcional</td><td>Cargo, empresa ou contexto.</td></tr>
+<tr><td><code>product_accent</code></td><td>Choice</td><td>Define acento Eberick, Builder, Visus ou neutro.</td></tr>
+<tr><td><code>animation_speed</code></td><td>Number</td><td>Controla velocidade dos cards.</td></tr>
+<tr><td><code>pause_on_hover</code></td><td>Boolean</td><td>Liga/desliga pausa no hover/foco.</td></tr>
+<tr><td><code>background_color</code></td><td>Color</td><td>Permite ajustar fundo da seção.</td></tr>
+</tbody>
+</table>
+</div>
+
+</section>
+<section class="slide" id="slide-21" data-title="Prompt para componente editável" data-notes="Destaque acessibilidade e fields.json.">
+
+<div class="slide-kicker">Atividade 3</div>
+<h1>Prompt para componente editável</h1>
+<p class="lead">Este prompt gera a seção de depoimentos com cards em loop, pausa no hover e campos editáveis no HubSpot.</p>
+
+    <div class="prompt-box">
+      <div class="prompt-head">
+        <strong>Prompt do exercício 3 — seção de depoimentos</strong>
+        <button class="mini-copy" onclick="copyFromBox(this)">Copiar prompt</button>
+      </div>
+      <textarea readonly>Você é desenvolvedor HubSpot CMS e front-end.
+
+Crie um componente HubSpot no formato de módulo customizado para uma seção de depoimentos.
+O componente deve ser uma seção completa da landing page, não apenas um card isolado.
+
+Comportamento desejado:
+- Uma seção de depoimentos com cards passando horizontalmente em loop contínuo.
+- Quando o usuário passa o mouse sobre a área dos cards, a animação para.
+- Quando o usuário tira o mouse, a animação continua.
+- Quando algum card recebe foco via teclado, a animação também deve pausar.
+- Cada card precisa ter: texto do depoimento, foto da pessoa e nome da pessoa.
+- Pode ter cargo/empresa como campo opcional.
+- Não usar biblioteca externa.
+
+Contexto visual:
+- LP de campanha para pacote Eberick + Builder + Visus.
+- Usar a mesma estética da LP nativa do workshop.
+- Usar as cores Eberick, Builder e Visus como acentos opcionais nos cards.
+- Logos não entram neste componente, mas se houver algum campo de marca, usar placeholder [INSERIR LOGO VIA URL DO HUBSPOT] e não inventar URL.
+
+Fonte e código:
+A LP/template deve carregar Poppins no &lt;head&gt; com este snippet:
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&amp;display=swap" rel="stylesheet">
+
+No CSS do componente, usar:
+font-family: "Poppins", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+
+Observação: se o tema da LP já carregar a fonte globalmente, não duplicar o link dentro do módulo; apenas usar a família no CSS ou herdar da página.
+
+Paleta obrigatória e tokens CSS:
+:root {
+  --brand-dark: #115134;
+  --brand-black: #000000;
+  --brand-white: #FFFFFF;
+  --brand-cta: #25CE7B;
+  --brand-gray: #64656A;
+  --brand-mint: #95E2C0;
+  --eberick: #00D7FF;
+  --builder: #FF9E1B;
+  --visus: #A15FE3;
+}
+
+Campos editáveis obrigatórios no fields.json:
+- anchor_id: text
+- eyebrow: text
+- title: text
+- subtitle: richtext
+- testimonials: grupo repetidor com:
+  - quote: richtext
+  - person_name: text
+  - person_role: text opcional
+  - person_photo: image
+  - product_accent: choice com Eberick, Builder, Visus, Neutro
+- animation_speed: number
+- pause_on_hover: boolean
+- background_color: color
+- heading_color: color
+- text_color: color
+- card_background: color
+- card_text_color: color
+- spacing_top e spacing_bottom: spacing ou choice
+
+Arquivos que você deve entregar:
+1. module.html com HTML + HubL.
+2. module.css com CSS escopado ao módulo.
+3. module.js se for necessário para duplicar os cards e gerar loop suave.
+4. fields.json.
+5. meta.json.
+6. Observações de uso no editor da página.
+
+Requisitos técnicos:
+- Usar wrapper único, por exemplo .lp-testimonials-marquee.
+- Usar aria-label na seção.
+- Usar alt da imagem da pessoa.
+- Criar fallback quando nenhum depoimento for cadastrado.
+- Respeitar prefers-reduced-motion: se o usuário preferir menos movimento, remover animação e exibir cards em grade.
+- O hover deve pausar com animation-play-state: paused.
+- Evitar IDs fixos que possam quebrar quando o módulo for usado mais de uma vez na página.
+- Se duplicar os cards para loop infinito, marcar a lista duplicada com aria-hidden="true" para evitar leitura repetida por leitores de tela.
+
+Conteúdo inicial sugerido:
+- Eyebrow: Depoimentos
+- Title: Quem integra o fluxo ganha clareza do projeto à apresentação
+- Subtitle: Veja como profissionais podem perceber valor ao conectar estrutura, orçamento e visualização.
+- 4 depoimentos fictícios curtos para teste, com nomes genéricos:
+  1. Ana Souza — Engenheira Civil
+  2. Marcos Lima — Coordenador de Projetos
+  3. Renata Alves — Orçamentista
+  4. Felipe Rocha — Diretor Técnico
+
+Entregue código pronto para colar no Design Manager do HubSpot, com HTML + HubL, CSS e JS separados.</textarea>
+    </div>
+    
+
+</section>
+<section class="slide" id="slide-22" data-title="QA final do workshop" data-notes="Use como checklist de encerramento.">
+
+<div class="slide-kicker">QA final</div>
+<h1>QA final do workshop</h1>
+<div class="check-grid"><label><input type="checkbox"> <span>LP tem exatamente 4 seções no exercício nativo</span></label>
+<label><input type="checkbox"> <span>Formulário Teste-form-lp+IA foi selecionado</span></label>
+<label><input type="checkbox"> <span>CTA leva para a seção do formulário</span></label>
+<label><input type="checkbox"> <span>Paleta de marca foi aplicada</span></label>
+<label><input type="checkbox"> <span>Placeholders de logos foram trocados pelos links do HubSpot</span></label>
+<label><input type="checkbox"> <span>URL e SEO foram preenchidos</span></label>
+<label><input type="checkbox"> <span>Preview mobile foi revisado</span></label>
+<label><input type="checkbox"> <span>Módulo com formulário foi testado em página real</span></label>
+<label><input type="checkbox"> <span>Componente de depoimentos é editável</span></label>
+<label><input type="checkbox"> <span>Cards pausam no hover e no foco</span></label>
+<label><input type="checkbox"> <span>Não há CSS vazando para outros módulos</span></label>
+<label><input type="checkbox"> <span>Publicação ou atualização foi validada</span></label></div>
+
+</section>
+<section class="slide" id="slide-23" data-title="Resultado esperado do workshop" data-notes="Reforce as entregas práticas.">
+
+<div class="slide-kicker">Fechamento</div>
+<h1>Resultado esperado do workshop</h1>
+<div class="result-grid">
+  <div><strong>1</strong><span>LP nativa no HubSpot com 4 seções.</span></div>
+  <div><strong>2</strong><span>Briefing e prompt visual reutilizáveis.</span></div>
+  <div><strong>3</strong><span>Módulo com formulário selecionável.</span></div>
+  <div><strong>4</strong><span>Seção editável de depoimentos em movimento.</span></div>
+</div>
+<div class="callout"><strong>Próximo uso:</strong> reaplicar o mesmo método em qualquer campanha, mudando briefing, oferta, imagens, formulário e campos editáveis.</div>
+
+</section>
+<section class="slide" id="slide-24" data-title="Documentação de apoio" data-notes="Deixe como referência para quem quiser aprofundar.">
+
+<div class="slide-kicker">Fontes</div>
+<h1>Documentação de apoio</h1>
+<ul class="source-list">
+  <li><a href="https://knowledge.hubspot.com/website-and-landing-pages/create-and-customize-pages" target="_blank" rel="noopener">HubSpot: criar e personalizar páginas</a></li>
+  <li><a href="https://developers.hubspot.com/docs/cms/start-building/introduction/developer-environment/design-manager" target="_blank" rel="noopener">HubSpot: Design Manager</a></li>
+  <li><a href="https://developers.hubspot.com/docs/cms/start-building/building-blocks/modules/forms" target="_blank" rel="noopener">HubSpot: formulários em módulos</a></li>
+  <li><a href="https://developers.hubspot.com/docs/cms/reference/modules/files" target="_blank" rel="noopener">HubSpot: arquivos de módulos customizados</a></li>
+  <li><a href="https://developers.google.com/gemini-code-assist/docs/write-code-gemini" target="_blank" rel="noopener">Gemini Code Assist no IDE</a></li>
+  <li><a href="https://developers.openai.com/codex/ide" target="_blank" rel="noopener">OpenAI Codex no editor</a></li>
+  <li><a href="https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer" target="_blank" rel="noopener">Live Server no VS Code</a></li>
+</ul>
+
+</section>
+    </div>
+  </main>
+</div>
+<div class="controls">
+  <button class="control-btn mobile-menu-btn" onclick="toggleMenu()">Menu</button>
+  <div class="controls-group">
+    <button class="control-btn" id="prevBtn" onclick="changeSlide(-1)">Anterior</button>
+    <button class="control-btn" id="nextBtn" onclick="changeSlide(1)">Próximo</button>
+    <button class="control-btn" onclick="toggleNotes()">Notas</button>
+  </div>
+  <div class="counter" id="counter">1 / 25</div>
+</div>
+<aside class="notes-panel" id="notesPanel">
+  <h3>Notas do apresentador</h3>
+  <p id="notesText"></p>
+</aside>
+<script>
+let currentSlide = 0;
+const slides = Array.from(document.querySelectorAll('.slide'));
+const nav = document.getElementById('slideNav');
+const prevBtn = document.getElementById('prevBtn');
+const nextBtn = document.getElementById('nextBtn');
+const progressBar = document.getElementById('progressBar');
+const counter = document.getElementById('counter');
+const notesPanel = document.getElementById('notesPanel');
+const notesText = document.getElementById('notesText');
+const sidebar = document.getElementById('sidebar');
+
+function pad(n) { return String(n).padStart(2, '0'); }
+
+slides.forEach((slide, index) => {
+  const btn = document.createElement('button');
+  btn.className = 'nav-item';
+  btn.onclick = () => goToSlide(index);
+  btn.innerHTML = `<span>${pad(index + 1)}</span>${slide.dataset.title || slide.querySelector('h1')?.textContent || 'Slide'}`;
+  nav.appendChild(btn);
+});
+
+function updatePresentation() {
+  slides.forEach((slide, index) => slide.classList.toggle('active', index === currentSlide));
+  document.querySelectorAll('.nav-item').forEach((item, index) => item.classList.toggle('is-active', index === currentSlide));
+  prevBtn.disabled = currentSlide === 0;
+  nextBtn.disabled = currentSlide === slides.length - 1;
+  nextBtn.textContent = currentSlide === slides.length - 1 ? 'Fim' : 'Próximo';
+  const progress = slides.length === 1 ? 100 : (currentSlide / (slides.length - 1)) * 100;
+  progressBar.style.width = `${progress}%`;
+  counter.textContent = `${currentSlide + 1} / ${slides.length}`;
+  const notes = slides[currentSlide].dataset.notes || 'Sem notas para este slide.';
+  notesText.textContent = notes;
+  document.querySelector('.nav-item.is-active')?.scrollIntoView({ block: 'nearest' });
+}
+
+function changeSlide(direction) {
+  currentSlide = Math.max(0, Math.min(slides.length - 1, currentSlide + direction));
+  updatePresentation();
+}
+
+function goToSlide(index) {
+  currentSlide = Math.max(0, Math.min(slides.length - 1, index));
+  updatePresentation();
+  sidebar.classList.remove('open');
+}
+
+function toggleNotes() {
+  notesPanel.classList.toggle('show');
+}
+
+function toggleMenu() {
+  sidebar.classList.toggle('open');
+}
+
+async function copyFromBox(button) {
+  const box = button.closest('.prompt-box');
+  const textarea = box.querySelector('textarea');
+  textarea.focus();
+  textarea.select();
+  try {
+    await navigator.clipboard.writeText(textarea.value);
+    const original = button.textContent;
+    button.textContent = 'Copiado!';
+    setTimeout(() => button.textContent = original, 1300);
+  } catch (e) {
+    document.execCommand('copy');
+  }
+}
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'ArrowRight') changeSlide(1);
+  if (e.key === 'ArrowLeft') changeSlide(-1);
+  if (e.key.toLowerCase() === 'n') toggleNotes();
+  if (e.key === 'Escape') {
+    notesPanel.classList.remove('show');
+    sidebar.classList.remove('open');
+  }
+});
+
+updatePresentation();
+</script>
+</body>
+</html>
